@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "pennywise",
-    "slug": "pennywise",
+    "name": "Tracksure",
+    "slug": "Tracksure",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/images/splashImage.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./src/assets/images/splashImage.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
