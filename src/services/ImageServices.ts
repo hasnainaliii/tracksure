@@ -8,6 +8,7 @@ export async function uploadFileToCloud(
   folderName: string
 ) {
   try {
+    if (!file) return { success: true, data: null };
     if (typeof file === "string") {
       return { success: true, data: file };
     }
@@ -36,6 +37,12 @@ export async function uploadFileToCloud(
   }
 }
 export function getProfileImage(file: any) {
+  if (file && typeof file === "string") return { uri: file }; // ✅ wrap in { uri: ... }
+  if (file && typeof file === "object" && file.uri) return { uri: file.uri }; // ✅ object with uri
+
+  return require("../assets/images/defaultAvatar.png");
+}
+export function getFilePath(file: any) {
   if (file && typeof file === "string") return { uri: file }; // ✅ wrap in { uri: ... }
   if (file && typeof file === "object" && file.uri) return { uri: file.uri }; // ✅ object with uri
 

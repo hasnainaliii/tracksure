@@ -39,10 +39,6 @@ function Signup() {
     setIsLoading(false);
     Alert.alert("You have successfulyy signed up");
 
-    if (res.success) {
-      navigation.replace("Main");
-    }
-
     if (!res.success) {
       Alert.alert("sign ,up", res.msg);
     }

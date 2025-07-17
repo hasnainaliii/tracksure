@@ -7,6 +7,7 @@ import Login from "../screens/auth/Login";
 import Signup from "../screens/auth/Signup";
 import TabNavigator from "./TabNavigator";
 import ProfileModal from "../screens/modals/ProfileModal";
+import WalletModal from "../screens/modals/WalletModal";
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,14 @@ export default function RootNavigator() {
           <Stack.Screen
             name="ProfileModal"
             component={ProfileModal}
+            options={{
+              presentation: "modal",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="WalletModal"
+            component={WalletModal}
             options={{
               presentation: "modal",
               headerShown: false,

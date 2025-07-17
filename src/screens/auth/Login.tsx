@@ -34,9 +34,6 @@ function Login() {
       console.log(res.msg);
       Alert.alert("wrong", res.msg);
     }
-    // if (res.success) {
-    //   navigation.replace("Main");
-    // }
   }
 
   return (

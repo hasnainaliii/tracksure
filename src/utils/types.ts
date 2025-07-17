@@ -22,6 +22,7 @@ export type RootStackParamList = {
   Signup: undefined;
   Main: undefined;
   ProfileModal: undefined;
+  WalletModal: undefined;
 };
 
 export type ScreenWrapperProps = {
