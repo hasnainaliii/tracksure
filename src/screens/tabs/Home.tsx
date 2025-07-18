@@ -6,14 +6,36 @@ import Typo from "@/src/components/Typo";
 import { auth } from "@/src/config/firebase";
 import { colors, spacingX, spacingY } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/authContext";
+import { useFetchData } from "@/src/hook/useFetchData";
 import { verticalScale } from "@/src/utils/styling";
+import {
+  RootStackParamList,
+  TransactionType,
+  WalletType,
+} from "@/src/utils/types";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { signOut } from "firebase/auth";
+import { limit, orderBy, where } from "firebase/firestore";
 import { MagnifyingGlassIcon, PlusIcon } from "phosphor-react-native";
+import { useMemo } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 function Home() {
   const { user } = useAuth();
+
+  const constraints = useMemo(() => {
+    return [where("uid", "==", user?.uid), orderBy("date", "desc"), limit(30)];
+  }, [user?.uid]);
+  const {
+    data: transactions,
+    error,
+    loading,
+  } = useFetchData<TransactionType>("transactions", constraints);
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   async function handleSubmit() {
     await signOut(auth);
@@ -47,13 +69,16 @@ function Home() {
           </View>
 
           <TransactionList
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-            loading={false}
-            title="Recent Transcation"
-            emptyListMessage="No Transcations added yet!"
+            data={transactions}
+            loading={loading}
+            title="Recent Transactions"
+            emptyListMessage="No Transactions added yet!"
           />
         </ScrollView>
-        <Button style={styles.floatingButton}>
+        <Button
+          style={styles.floatingButton}
+          onPress={() => navigation.push("TransactionModal")}
+        >
           <PlusIcon
             color={colors.black}
             weight="bold"
@@ -88,7 +113,7 @@ const styles = StyleSheet.create({
     width: verticalScale(50),
     borderRadius: 100,
     position: "absolute",
-    bottom: verticalScale(30),
+    bottom: verticalScale(80),
     right: verticalScale(30),
   },
 

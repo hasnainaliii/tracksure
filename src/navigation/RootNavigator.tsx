@@ -8,6 +8,7 @@ import Signup from "../screens/auth/Signup";
 import TabNavigator from "./TabNavigator";
 import ProfileModal from "../screens/modals/ProfileModal";
 import WalletModal from "../screens/modals/WalletModal";
+import TransactionModal from "../screens/modals/TransactionModal";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,14 @@ export default function RootNavigator() {
           <Stack.Screen
             name="WalletModal"
             component={WalletModal}
+            options={{
+              presentation: "modal",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="TransactionModal"
+            component={TransactionModal}
             options={{
               presentation: "modal",
               headerShown: false,

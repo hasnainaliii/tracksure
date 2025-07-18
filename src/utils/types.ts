@@ -23,6 +23,7 @@ export type RootStackParamList = {
   Main: undefined;
   ProfileModal: undefined;
   WalletModal: undefined;
+  TransactionModal: undefined;
 };
 
 export type ScreenWrapperProps = {

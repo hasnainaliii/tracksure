@@ -8,9 +8,35 @@ import {
   DotsThreeCircleIcon,
   DotsThreeIcon,
   DotsThreeVerticalIcon,
+  SkullIcon,
 } from "phosphor-react-native";
+import { useMemo } from "react";
+import { WalletType } from "../utils/types";
+import { useFetchData } from "../hook/useFetchData";
+import { orderBy, where } from "firebase/firestore";
+import { useAuth } from "../context/authContext";
 
 function HomeCard() {
+  const { user } = useAuth();
+  const constraints = useMemo(() => {
+    return [where("uid", "==", user?.uid), orderBy("created", "desc")];
+  }, [user?.uid]);
+  const {
+    data: wallets,
+    error,
+    loading,
+  } = useFetchData<WalletType>("wallets", constraints);
+  const getTotals = () => {
+    return wallets.reduce(
+      (totals: any, item: WalletType) => {
+        totals.balance = totals.balance + Number(item.amount);
+        totals.income = totals.income + Number(item.totalIncome);
+        totals.expenses = totals.expenses + Number(item.totalExpenses);
+        return totals;
+      },
+      { balance: 0, income: 0, expenses: 0 }
+    );
+  };
   return (
     <ImageBackground
       source={require("../assets/images/card.png")}
@@ -31,7 +57,12 @@ function HomeCard() {
             />
           </View>
           <Typo color={colors.black} size={30} fontWeight={"bold"}>
-            2455
+            $
+            {loading ? (
+              <SkullIcon size={20} weight="fill" color="black" />
+            ) : (
+              getTotals()?.balance?.toFixed(2)
+            )}
           </Typo>
         </View>
         <View style={styles.stats}>
@@ -51,7 +82,12 @@ function HomeCard() {
             </View>
             <View style={{ alignSelf: "center" }}>
               <Typo size={17} color={colors.green} fontWeight={"600"}>
-                $ 2342
+                ${" "}
+                {loading ? (
+                  <SkullIcon size={20} weight="fill" color="black" />
+                ) : (
+                  getTotals()?.income?.toFixed(2)
+                )}
               </Typo>
             </View>
           </View>
@@ -71,7 +107,12 @@ function HomeCard() {
             </View>
             <View style={{ alignSelf: "center" }}>
               <Typo size={17} color={colors.rose} fontWeight={"600"}>
-                $ 234222
+                ${" "}
+                {loading ? (
+                  <SkullIcon size={20} weight="fill" color="black" />
+                ) : (
+                  getTotals()?.expenses?.toFixed(2)
+                )}
               </Typo>
             </View>
           </View>

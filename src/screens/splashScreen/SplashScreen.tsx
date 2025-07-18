@@ -1,8 +1,13 @@
 import { colors } from "@/src/constants/theme";
+import { RootStackParamList } from "@/src/utils/types";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
-function SplashScreen({ navigation }: any) {
+function SplashScreen() {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   useEffect(() => {
     setTimeout(() => {
       navigation.replace("Welcome");
